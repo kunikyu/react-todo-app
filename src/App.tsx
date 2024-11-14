@@ -42,7 +42,7 @@ const App = () => {
     }
   }, [todos, initialized]);
 
-  const uncompletedCount = todos.filter((todo: Todo) => !todo.isDone).length;
+  // const uncompletedCount = todos.filter((todo: Todo) => !todo.isDone).length;
 
   const removeCompletedTodos = () => {
     const updatedTodos = todos.filter((todo) => !todo.isDone);
@@ -110,10 +110,7 @@ const App = () => {
     <div className="mx-4 mt-10 max-w-2xl md:mx-auto">
       <h1 className="mb-4 text-2xl font-bold">TodoApp</h1>
       <div className="mb-4">
-        <WelcomeMessage
-          name="寝屋川タヌキ"
-          uncompletedCount={uncompletedCount}
-        />
+        <WelcomeMessage name="寝屋川タヌキ" />
       </div>
       <TodoList todos={todos} updateIsDone={updateIsDone} remove={remove} />
       <button
