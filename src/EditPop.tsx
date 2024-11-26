@@ -4,15 +4,15 @@ import { Todo } from "./types";
 
 type Props = {
   todos: Todo[];
-  setPopUpVisible: (isPopUpVisible: boolean) => void;
-  isPopUpVisible: boolean;
+  setEditPopUpVisible: (isPopUpVisible: boolean) => void;
+  isEditPopUpVisible: boolean;
   setTodos: (todos: Todo[]) => void;
   id: string;
 };
 
 const EditPop = (props: Props) => {
-  const setPopUpVisible = props.setPopUpVisible;
-  const isPopUpVisible = props.isPopUpVisible;
+  const setPopUpVisible = props.setEditPopUpVisible;
+  const isPopUpVisible = props.isEditPopUpVisible;
   const todos = props.todos;
   const todo = todos.find((todo) => todo.id === props.id) as Todo;
   const updateTodoName = (id: string, value: string) => {

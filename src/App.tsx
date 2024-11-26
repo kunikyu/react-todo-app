@@ -5,10 +5,8 @@ import { initTodos } from "./initTodos";
 import WelcomeMessage from "./WelcomeMessage";
 import TodoList from "./TodoList";
 import { v4 as uuid } from "uuid";
+import NewTodoForm from "./NewTodoForm";
 import dayjs from "dayjs";
-import { twMerge } from "tailwind-merge";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -19,7 +17,7 @@ const App = () => {
   const [newTodoMemo, setNewTodoMemo] = useState("");
   const [initialized, setInitialized] = useState(false);
   const localStorageKey = "TodoApp";
-  const [isPopUpVisible, setPopUpVisible] = useState(false);
+  const [LiePopupState, setLiePopupState] = useState(0);
   // App コンポーネントの初回実行時のみLocalStorageからTodoデータを復元
   useEffect(() => {
     const todoJsonStr = localStorage.getItem(localStorageKey);
@@ -73,7 +71,7 @@ const App = () => {
         if (!todo.lie) {
           return { ...todo, isDone: value };
         } else {
-          setPopUpVisible(!isPopUpVisible);
+          setLiePopupState(1);
           return todo;
         }
       } else {
@@ -83,7 +81,10 @@ const App = () => {
     setTodos(updatedTodos);
   };
   const remove = (id: string) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    const updatedTodos = todos.filter((todo) => !(todo.id === id && !todo.lie));
+    if (todos.length === updatedTodos.length) {
+      setLiePopupState(2);
+    }
     setTodos(updatedTodos);
   };
   const addNewTodo = () => {
@@ -110,114 +111,42 @@ const App = () => {
       <h1 className="mb-4 text-2xl font-bold">TodoApp</h1>
       <div>
         <LiePop
-          isPopUpVisible={isPopUpVisible}
-          setPopUpVisible={setPopUpVisible}
+          isPopUpVisible={LiePopupState}
+          setPopUpVisible={setLiePopupState}
         />
       </div>
       <div className="mb-4">
         <WelcomeMessage name="寝屋川タヌキ" />
       </div>
+      <button
+        type="button"
+        onClick={removeCompletedTodos}
+        className={
+          "mb-5 rounded-md bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
+        }
+      >
+        完了済みのタスクを削除
+      </button>
       <TodoList
         todos={todos}
         updateIsDone={updateIsDone}
         remove={remove}
         setTodos={setTodos}
+        setLiePopupState={setLiePopupState}
       />
-      <button
-        type="button"
-        onClick={removeCompletedTodos}
-        className={
-          "mt-5 rounded-md bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
-        }
-      >
-        完了済みのタスクを削除
-      </button>
-      <div className="mt-5 space-y-2 rounded-md border p-3">
-        <h2 className="text-lg font-bold">新しいタスクの追加</h2>
-        <div>
-          <div className="flex items-center space-x-2">
-            <label className="font-bold" htmlFor="newTodoName">
-              名前
-            </label>
-            <input
-              id="newTodoName"
-              type="text"
-              value={newTodoName}
-              onChange={updateNewTodoName}
-              className={"grow rounded-md border p-2"}
-              placeholder="課題の名前を書け"
-            />
-          </div>
-        </div>
-
-        <div className="flex gap-5">
-          <div className="font-bold">優先度</div>
-          {[1, 2, 3].map((value) => (
-            <label key={value} className="flex items-center space-x-1">
-              <input
-                id={`priority-${value}`}
-                name="priorityGroup"
-                type="radio"
-                value={value}
-                checked={newTodoPriority === value}
-                onChange={updateNewTodoPriority}
-              />
-              <span>{value}</span>
-            </label>
-          ))}
-          <div className="flex gap-5">
-            <label htmlFor="lie" className="font-bold">
-              嘘
-            </label>
-            <input
-              id="lie"
-              type="checkbox"
-              checked={newTodoLie}
-              onChange={updateLie}
-              className="mr-1.5 cursor-pointer"
-            />
-          </div>
-        </div>
-
-        <div className="flex items-center gap-x-2">
-          <label htmlFor="deadline" className="font-bold">
-            期限
-          </label>
-          <input
-            type="datetime-local"
-            id="deadline"
-            value={
-              newTodoDeadline
-                ? dayjs(newTodoDeadline).format("YYYY-MM-DDTHH:mm:ss")
-                : ""
-            }
-            onChange={updateDeadline}
-            className="rounded-md border border-gray-400 px-2 py-0.5"
-          />
-        </div>
-        <div className="gap-x-2">
-          <label htmlFor="memo" className="font-bold">
-            メモ
-          </label>
-          <textarea
-            id="memo"
-            value={newTodoMemo}
-            onChange={(e) => setNewTodoMemo(e.target.value)}
-            className="w-full rounded-md border border-gray-400 px-2 py-0.5"
-            rows={3}
-          ></textarea>
-        </div>
-
-        <button
-          type="button"
-          onClick={addNewTodo}
-          className={
-            "rounded-md bg-indigo-500 px-3 py-1 font-bold text-white hover:bg-indigo-600"
-          }
-        >
-          追加
-        </button>
-      </div>
+      <NewTodoForm
+        newTodoName={newTodoName}
+        newTodoPriority={newTodoPriority}
+        newTodoDeadline={newTodoDeadline}
+        newTodoLie={newTodoLie}
+        newTodoMemo={newTodoMemo}
+        updateNewTodoName={updateNewTodoName}
+        updateNewTodoPriority={updateNewTodoPriority}
+        updateDeadline={updateDeadline}
+        updateLie={updateLie}
+        setNewTodoMemo={setNewTodoMemo}
+        addNewTodo={addNewTodo}
+      />
     </div>
   );
 };

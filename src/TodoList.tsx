@@ -7,6 +7,7 @@ type Props = {
   updateIsDone: (id: string, value: boolean) => void;
   remove: (id: string) => void;
   setTodos: (todos: Todo[]) => void;
+  setLiePopupState: (value: number) => void;
 };
 
 const TodoList = (props: Props) => {
@@ -30,6 +31,7 @@ const TodoList = (props: Props) => {
           remove={props.remove}
           updateIsDone={props.updateIsDone}
           setTodos={props.setTodos}
+          setLiepopupState={props.setLiePopupState}
         />
       ))}
     </div>

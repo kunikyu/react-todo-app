@@ -3,11 +3,7 @@ import { Todo } from "./types";
 import EditPop from "./EditPop";
 import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFile,
-  faClock,
-  faFaceGrinWide,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFile, faClock } from "@fortawesome/free-solid-svg-icons";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
@@ -16,6 +12,7 @@ type Props = {
   updateIsDone: (id: string, value: boolean) => void;
   remove: (id: string) => void;
   setTodos: (todos: Todo[]) => void;
+  setLiepopupState: (value: number) => void;
 };
 const num2star = (lie: boolean, n: number): JSX.Element => {
   if (lie) {
@@ -26,14 +23,14 @@ const num2star = (lie: boolean, n: number): JSX.Element => {
 };
 
 const TodoItem = (props: Props) => {
-  const [isPopUpVisible, setPopUpVisible] = useState(false);
+  const [isEditPopUpVisible, setEditPopUpVisible] = useState(false);
   const todo = props.todo;
   return (
     <div>
       <EditPop
         todos={props.todos}
-        isPopUpVisible={isPopUpVisible}
-        setPopUpVisible={setPopUpVisible}
+        isEditPopUpVisible={isEditPopUpVisible}
+        setEditPopUpVisible={setEditPopUpVisible}
         setTodos={props.setTodos}
         id={todo.id}
       />
@@ -76,7 +73,10 @@ const TodoItem = (props: Props) => {
             </div>
           )}
           <button
-            onClick={() => setPopUpVisible(true)}
+            onClick={() => {
+              setEditPopUpVisible(true);
+              props.setLiepopupState(3);
+            }}
             className="ml-auto mr-2 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-blue-500"
           >
             編集
