@@ -8,19 +8,25 @@ export const initTodos: Todo[] = [
     isDone: false,
     priority: 2,
     deadline: new Date(2024, 10, 2, 17, 30),
+    lie: false,
+    memo: "",
   },
   {
     id: uuid(),
     name: "TypeScriptの勉強 (復習)",
-    isDone: true,
+    isDone: false,
     priority: 3,
     deadline: null, // このTodoには期限を設定しない
+    lie: true,
+    memo: "",
   },
   {
     id: uuid(),
     name: "基礎物理学3の宿題",
-    isDone: false,
+    isDone: true,
     priority: 1,
     deadline: new Date(2024, 10, 11),
+    lie: false,
+    memo: "",
   },
 ];
