@@ -21,7 +21,7 @@ const Howto = () => {
       </button>
       {isPopupOpen && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50">
-          <div className="rounded-md bg-white p-5">
+          <div className="size-full rounded-md bg-white p-5 sm:size-max">
             <h3 className="text-lg font-bold">概要</h3>
             <p>
               やることがない人はTodoを使えないなんてことはありません。
@@ -31,7 +31,7 @@ const Howto = () => {
               <br />
               <br />
               <a
-                href="https://atcoder.jp/users/kunikyu"
+                href="https://github.com/kunikyu"
                 target="_blank"
                 className="text-blue-600 underline"
               >

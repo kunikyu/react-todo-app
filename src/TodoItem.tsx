@@ -54,68 +54,72 @@ const TodoItem = (props: Props) => {
             type="checkbox"
             checked={todo.isDone}
             onChange={(e) => props.updateIsDone(todo.id, e.target.checked)}
-            className="mr-1.5 cursor-pointer"
+            className="mr-1.5 cursor-pointer items-center"
           />
         </div>
-        <div className="flex w-full items-center text-slate-700">
-          <div className="sm:flex sm:w-full">
-            <div className="flex items-baseline">
-              <FontAwesomeIcon
-                icon={faFile}
-                flip="horizontal"
-                className="mr-1"
-              />
-              <div
-                className={twMerge(
-                  "text-lg font-bold ",
-                  todo.isDone && "line-through decoration-2"
-                )}
-              >
-                {todo.name}
+        <div className="w-full divide-y divide-blue-400">
+          <div className="mb-1 flex">
+            <div className="flex w-full items-center text-slate-700">
+              <div className="sm:flex sm:w-full">
+                <div className="flex items-baseline">
+                  <FontAwesomeIcon
+                    icon={faFile}
+                    flip="horizontal"
+                    className="mr-1"
+                  />
+                  <div
+                    className={twMerge(
+                      "text-lg font-bold ",
+                      todo.isDone && "line-through decoration-2"
+                    )}
+                  >
+                    {todo.name}
+                  </div>
+                  {num2star(todo.lie, todo.priority)}
+                </div>
+                <div
+                  className={twMerge(
+                    "ml-auto flex items-center text-sm",
+                    dayjs(todo.deadline).isBefore(dayjs())
+                      ? " text-red-500"
+                      : " text-slate-500"
+                  )}
+                >
+                  <FontAwesomeIcon
+                    icon={faClock}
+                    flip="horizontal"
+                    className="mr-1.5"
+                  />
+                  <div className={twMerge(todo.isDone && "line-through")}>
+                    {/* 期限: {todo.deadline && <br className="my-sm:hidden" />} */}
+                    {todo.deadline
+                      ? dayjs(todo.deadline).format("YYYY-M/D H:m")
+                      : "未設定"}
+                  </div>
+                </div>
               </div>
-              {num2star(todo.lie, todo.priority)}
-            </div>
-            <div
-              className={twMerge(
-                "ml-auto flex items-center text-sm",
-                dayjs(todo.deadline).isBefore(dayjs())
-                  ? " text-red-500"
-                  : " text-slate-500"
-              )}
-            >
-              <FontAwesomeIcon
-                icon={faClock}
-                flip="horizontal"
-                className="mr-1.5"
-              />
-              <div className={twMerge(todo.isDone && "line-through")}>
-                {todo.deadline
-                  ? "期限: " +
-                    dayjs(todo.deadline).format("YYYY年M月D日 H時m分")
-                  : "期限: 未設定"}
+              <div className="ml-auto flex w-auto sm:ml-0">
+                <button
+                  onClick={() => {
+                    setEditPopUpVisible(true);
+                    if (todo.lie) props.setLiepopupState(3);
+                  }}
+                  className="ml-2 w-11 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-blue-500"
+                >
+                  編集
+                </button>
+                <button
+                  onClick={() => props.remove(todo.id)}
+                  className="ml-2 w-11 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-red-500"
+                >
+                  削除
+                </button>
               </div>
             </div>
           </div>
-          <div className="ml-auto flex w-auto sm:ml-0">
-            <button
-              onClick={() => {
-                setEditPopUpVisible(true);
-                if (todo.lie) props.setLiepopupState(3);
-              }}
-              className="mx-2 w-11 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-blue-500"
-            >
-              編集
-            </button>
-            <button
-              onClick={() => props.remove(todo.id)}
-              className="w-11 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-red-500"
-            >
-              削除
-            </button>
-          </div>
+          <div className="">{todo.memo}</div>
         </div>
       </div>
-      <div className="ml-5 font-bold">{todo.memo}</div>
     </div>
   );
 };

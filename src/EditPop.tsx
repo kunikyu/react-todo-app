@@ -18,11 +18,11 @@ const EditPop = (props: Props) => {
   const updateTodoName = (id: string, value: string) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
-        if (!todo.lie) {
-          return { ...todo, name: value }; // スプレッド構文
-        } else {
-          return todo;
-        }
+        // if (!todo.lie) {
+        return { ...todo, name: value }; // スプレッド構文
+        // } else {
+        //   return todo;
+        // }
       } else {
         return todo;
       }
@@ -33,11 +33,11 @@ const EditPop = (props: Props) => {
   const updateTodopriority = (id: string, value: number) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
-        if (!todo.lie) {
-          return { ...todo, priority: value }; // スプレッド構文
-        } else {
-          return todo;
-        }
+        // if (!todo.lie) {
+        return { ...todo, priority: value }; // スプレッド構文
+        // } else {
+        //   return todo;
+        // }
       } else {
         return todo;
       }
@@ -48,11 +48,11 @@ const EditPop = (props: Props) => {
   const updateTododeadline = (id: string, value: Date) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
-        if (!todo.lie) {
-          return { ...todo, deadline: value }; // スプレッド構文
-        } else {
-          return todo;
-        }
+        // if (!todo.lie) {
+        return { ...todo, deadline: value }; // スプレッド構文
+        // } else {
+        //   return todo;
+        // }
       } else {
         return todo;
       }
@@ -63,11 +63,11 @@ const EditPop = (props: Props) => {
   const updateTodomemo = (id: string, value: string) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
-        if (!todo.lie) {
-          return { ...todo, memo: value }; // スプレッド構文
-        } else {
-          return todo;
-        }
+        // if (!todo.lie) {
+        return { ...todo, memo: value }; // スプレッド構文
+        // } else {
+        //   return todo;
+        // }
       } else {
         return todo;
       }
@@ -77,9 +77,8 @@ const EditPop = (props: Props) => {
   return (
     <div>
       {isPopUpVisible && (
-          <div className="fixed left-0 top-0 z-40 size-full bg-black/50"></div>
-        ) && (
-          <div className="fixed left-1/2 top-1/2 z-10 size-full max-h-max max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-md bg-gray-100 p-5 shadow-lg">
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50">
+          <div className="h-max w-full max-w-2xl rounded-md bg-gray-100 p-5 shadow-lg">
             <h2 className="text-lg font-bold">タスクの編集</h2>
             {/* 編集: ここから... */}
             <div>
@@ -160,7 +159,8 @@ const EditPop = (props: Props) => {
               保存
             </button>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 };

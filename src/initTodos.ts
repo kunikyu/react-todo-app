@@ -1,32 +1,33 @@
 import { Todo } from "./types";
 import { v4 as uuid } from "uuid"; // v4 を uuid という名前でインポート
+import dayjs from "dayjs";
 
 export const initTodos: Todo[] = [
   {
     id: uuid(), // UUID v4 を生成してIDにセット
-    name: "解析2の宿題",
+    name: "Todo1",
     isDone: false,
     priority: 2,
-    deadline: new Date(2024, 10, 2, 17, 30),
+    deadline: new Date(dayjs().add(1, "day").toDate()), // 1日後の日付をセット
     lie: false,
-    memo: "",
+    memo: "スタンダードなタスクです。",
   },
   {
     id: uuid(),
-    name: "TypeScriptの勉強 (復習)",
+    name: "Todo2",
     isDone: false,
     priority: 3,
-    deadline: null, // このTodoには期限を設定しない
-    lie: true,
-    memo: "",
+    deadline: new Date(dayjs().subtract(1, "day").toDate()), // 1日前の日付をセット
+    lie: false,
+    memo: "期限切れのタスクです。",
   },
   {
     id: uuid(),
-    name: "基礎物理学3の宿題",
+    name: "Todo3",
     isDone: true,
     priority: 1,
-    deadline: new Date(2024, 10, 11),
+    deadline: null, // 期限なしS
     lie: false,
-    memo: "",
+    memo: "完了済みのタスクです。",
   },
 ];

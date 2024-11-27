@@ -114,8 +114,11 @@ const App = () => {
 
   return (
     <div className="mx-auto mt-10 max-w-2xl">
-      <div className="flex">
-        <h1 className="mb-4 text-2xl font-bold">TodoApp by kunikyu</h1>
+      <div className="flex items-center">
+        <h1 className="mb-4 text-2xl font-bold">
+          TodoApp <br className="my-sm:hidden" />
+          by kunikyu
+        </h1>
         <Howto />
       </div>
       <div>
@@ -142,20 +145,26 @@ const App = () => {
         addNewTodo={addNewTodo}
         setNewTodoPopupVisible={setNewTodoPopupState}
       />
-      <button
-        type="button"
-        onClick={() => setNewTodoPopupState(true)}
-        className="my-5 mr-3 rounded-md border border-green-700 bg-green-500 px-3 py-1 font-bold text-white hover:bg-green-600"
-      >
-        新しいタスクの追加
-      </button>
-      <button
-        type="button"
-        onClick={removeCompletedTodos}
-        className="my-5 rounded-md border border-red-700 bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
-      >
-        完了済みのタスクを削除
-      </button>
+      <div className="mb-4 flex justify-between">
+        <button
+          type="button"
+          onClick={() => setNewTodoPopupState(true)}
+          className="rounded-md border border-green-700 bg-green-500 px-3 py-1 font-bold text-white hover:bg-green-600 ss:min-w-40"
+        >
+          新しいタスクの
+          <br className="sm:hidden" />
+          追加
+        </button>
+        <button
+          type="button"
+          onClick={removeCompletedTodos}
+          className="rounded-md border border-red-700 bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600 ss:min-w-40"
+        >
+          完了済みの
+          <br className="sm:hidden" />
+          タスクを削除
+        </button>
+      </div>
       <TodoList
         todos={todos}
         updateIsDone={updateIsDone}
