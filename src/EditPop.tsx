@@ -77,87 +77,89 @@ const EditPop = (props: Props) => {
   return (
     <div>
       {isPopUpVisible && (
-        <div className="fixed left-1/2 top-1/2 z-10 size-full max-h-max max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-md bg-gray-100 p-5 shadow-lg">
-          <h2 className="text-lg font-bold">タスクの編集</h2>
-          {/* 編集: ここから... */}
-          <div>
-            <div className="flex items-center space-x-2">
-              <label className="font-bold" htmlFor="newTodoName">
-                名前
+          <div className="fixed left-0 top-0 z-40 size-full bg-black/50"></div>
+        ) && (
+          <div className="fixed left-1/2 top-1/2 z-10 size-full max-h-max max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-md bg-gray-100 p-5 shadow-lg">
+            <h2 className="text-lg font-bold">タスクの編集</h2>
+            {/* 編集: ここから... */}
+            <div>
+              <div className="flex items-center space-x-2">
+                <label className="font-bold" htmlFor="newTodoName">
+                  名前
+                </label>
+                <input
+                  id="newTodoName"
+                  type="text"
+                  value={todo.name}
+                  onChange={(e) => updateTodoName(todo.id, e.target.value)}
+                  className={"grow rounded-md border p-2"}
+                  placeholder="課題の名前を書け"
+                />
+              </div>
+            </div>
+            {/* ...ここまで */}
+
+            <div className="flex gap-5">
+              <div className="font-bold">優先度</div>
+              {[1, 2, 3].map((value) => (
+                <label key={value} className="flex items-center space-x-1">
+                  <input
+                    id={`priority-${value}`}
+                    name="priorityGroup"
+                    type="radio"
+                    value={value}
+                    checked={todo.priority === value}
+                    onChange={() => updateTodopriority(todo.id, value)}
+                  />
+                  <span>{value}</span>
+                </label>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-x-2">
+              <label htmlFor="deadline" className="font-bold">
+                期限
               </label>
               <input
-                id="newTodoName"
-                type="text"
-                value={todo.name}
-                onChange={(e) => updateTodoName(todo.id, e.target.value)}
-                className={"grow rounded-md border p-2"}
-                placeholder="課題の名前を書け"
+                type="datetime-local"
+                id="deadline"
+                value={
+                  todo.deadline
+                    ? dayjs(todo.deadline).format("YYYY-MM-DDTHH:mm:ss")
+                    : ""
+                }
+                onChange={(e) => {
+                  updateTododeadline(todo.id, e.target.valueAsDate as Date);
+                }}
+                className="rounded-md border border-gray-400 px-2 py-0.5"
               />
             </div>
-          </div>
-          {/* ...ここまで */}
-
-          <div className="flex gap-5">
-            <div className="font-bold">優先度</div>
-            {[1, 2, 3].map((value) => (
-              <label key={value} className="flex items-center space-x-1">
-                <input
-                  id={`priority-${value}`}
-                  name="priorityGroup"
-                  type="radio"
-                  value={value}
-                  checked={todo.priority === value}
-                  onChange={() => updateTodopriority(todo.id, value)}
-                />
-                <span>{value}</span>
+            <div>
+              <label className="font-bold" htmlFor="memo">
+                メモ
               </label>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-x-2">
-            <label htmlFor="deadline" className="font-bold">
-              期限
-            </label>
-            <input
-              type="datetime-local"
-              id="deadline"
-              value={
-                todo.deadline
-                  ? dayjs(todo.deadline).format("YYYY-MM-DDTHH:mm:ss")
-                  : ""
-              }
-              onChange={(e) => {
-                updateTododeadline(todo.id, e.target.valueAsDate as Date);
+              <textarea
+                id="memo"
+                className="w-full rounded-md border border-gray-400 p-2"
+                value={todo.memo}
+                onChange={(e) => updateTodomemo(todo.id, e.target.value)}
+                rows={3}
+              ></textarea>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setPopUpVisible(false);
+                props.setTodos(todos);
               }}
-              className="rounded-md border border-gray-400 px-2 py-0.5"
-            />
+              className={
+                "rounded-md bg-indigo-500 px-3 py-1 font-bold text-white hover:bg-indigo-600"
+              }
+            >
+              保存
+            </button>
           </div>
-          <div>
-            <label className="font-bold" htmlFor="memo">
-              メモ
-            </label>
-            <textarea
-              id="memo"
-              className="w-full rounded-md border border-gray-400 p-2"
-              value={todo.memo}
-              onChange={(e) => updateTodomemo(todo.id, e.target.value)}
-              rows={3}
-            ></textarea>
-          </div>
-          <button
-            type="button"
-            onClick={() => {
-              setPopUpVisible(false);
-              props.setTodos(todos);
-            }}
-            className={
-              "rounded-md bg-indigo-500 px-3 py-1 font-bold text-white hover:bg-indigo-600"
-            }
-          >
-            保存
-          </button>
-        </div>
-      )}
+        )}
     </div>
   );
 };

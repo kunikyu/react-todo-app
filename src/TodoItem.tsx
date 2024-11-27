@@ -16,9 +16,9 @@ type Props = {
 };
 const num2star = (lie: boolean, n: number): JSX.Element => {
   if (lie) {
-    return <div className="ml-2 text-orange-300">{"★".repeat(4 - n)}</div>;
+    return <div className="ml-2 text-amber-400">{"★".repeat(4 - n)}</div>;
   } else {
-    return <div className="ml-2 text-orange-400">{"★".repeat(4 - n)}</div>;
+    return <div className="ml-2 text-yellow-400">{"★".repeat(4 - n)}</div>;
   }
 };
 
@@ -75,7 +75,7 @@ const TodoItem = (props: Props) => {
           <button
             onClick={() => {
               setEditPopUpVisible(true);
-              props.setLiepopupState(3);
+              if (todo.lie) props.setLiepopupState(3);
             }}
             className="ml-auto mr-2 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-blue-500"
           >

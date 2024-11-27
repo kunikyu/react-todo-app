@@ -6,7 +6,6 @@ import WelcomeMessage from "./WelcomeMessage";
 import TodoList from "./TodoList";
 import { v4 as uuid } from "uuid";
 import NewTodoForm from "./NewTodoForm";
-import dayjs from "dayjs";
 
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -18,6 +17,7 @@ const App = () => {
   const [initialized, setInitialized] = useState(false);
   const localStorageKey = "TodoApp";
   const [LiePopupState, setLiePopupState] = useState(0);
+  const [NewTodoPopupState, setNewTodoPopupState] = useState(false);
   // App コンポーネントの初回実行時のみLocalStorageからTodoデータを復元
   useEffect(() => {
     const todoJsonStr = localStorage.getItem(localStorageKey);
@@ -104,11 +104,12 @@ const App = () => {
     setNewTodoDeadline(null);
     setNewTodoLie(false);
     setNewTodoMemo("");
+    setNewTodoPopupState(false);
   };
 
   return (
     <div className="mx-auto mt-10 max-w-2xl">
-      <h1 className="mb-4 text-2xl font-bold">TodoApp</h1>
+      <h1 className="mb-4 text-2xl font-bold">TodoApp by kunikyu</h1>
       <div>
         <LiePop
           isPopUpVisible={LiePopupState}
@@ -116,25 +117,10 @@ const App = () => {
         />
       </div>
       <div className="mb-4">
-        <WelcomeMessage name="寝屋川タヌキ" />
+        <WelcomeMessage name="嘘つき" />
       </div>
-      <button
-        type="button"
-        onClick={removeCompletedTodos}
-        className={
-          "mb-5 rounded-md bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
-        }
-      >
-        完了済みのタスクを削除
-      </button>
-      <TodoList
-        todos={todos}
-        updateIsDone={updateIsDone}
-        remove={remove}
-        setTodos={setTodos}
-        setLiePopupState={setLiePopupState}
-      />
       <NewTodoForm
+        NewTodoPopupVisible={NewTodoPopupState}
         newTodoName={newTodoName}
         newTodoPriority={newTodoPriority}
         newTodoDeadline={newTodoDeadline}
@@ -146,6 +132,30 @@ const App = () => {
         updateLie={updateLie}
         setNewTodoMemo={setNewTodoMemo}
         addNewTodo={addNewTodo}
+        setNewTodoPopupVisible={setNewTodoPopupState}
+      />
+      <button
+        type="button"
+        onClick={() => setNewTodoPopupState(true)}
+        className="my-5 mr-3 rounded-md bg-green-500 px-3 py-1 font-bold text-white hover:bg-green-600"
+      >
+        新しいタスクの追加
+      </button>
+      <button
+        type="button"
+        onClick={removeCompletedTodos}
+        className={
+          "my-5 rounded-md bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
+        }
+      >
+        完了済みのタスクを削除
+      </button>
+      <TodoList
+        todos={todos}
+        updateIsDone={updateIsDone}
+        remove={remove}
+        setTodos={setTodos}
+        setLiePopupState={setLiePopupState}
       />
     </div>
   );
