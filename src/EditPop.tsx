@@ -115,25 +115,26 @@ const EditPop = (props: Props) => {
                 </label>
               ))}
             </div>
-
-            <div className="flex items-center gap-x-2">
-              <label htmlFor="deadline" className="font-bold">
-                期限
-              </label>
-              <input
-                type="datetime-local"
-                id="deadline"
-                value={
-                  todo.deadline
-                    ? dayjs(todo.deadline).format("YYYY-MM-DDTHH:mm:ss")
-                    : ""
-                }
-                onChange={(e) => {
-                  updateTododeadline(todo.id, e.target.valueAsDate as Date);
-                }}
-                className="rounded-md border border-gray-400 px-2 py-0.5"
-              />
-            </div>
+            {!todo.lie && (
+              <div className="flex items-center gap-x-2">
+                <label htmlFor="deadline" className="font-bold">
+                  期限
+                </label>
+                <input
+                  type="datetime-local"
+                  id="deadline"
+                  value={
+                    todo.deadline
+                      ? dayjs(todo.deadline).format("YYYY-MM-DDTHH:mm:ss")
+                      : ""
+                  }
+                  onChange={(e) => {
+                    updateTododeadline(todo.id, e.target.valueAsDate as Date);
+                  }}
+                  className="rounded-md border border-gray-400 px-2 py-0.5"
+                />
+              </div>
+            )}
             <div>
               <label className="font-bold" htmlFor="memo">
                 メモ

@@ -6,6 +6,7 @@ import WelcomeMessage from "./WelcomeMessage";
 import TodoList from "./TodoList";
 import { v4 as uuid } from "uuid";
 import NewTodoForm from "./NewTodoForm";
+import dayjs from "dayjs";
 
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -27,6 +28,7 @@ const App = () => {
         ...todo,
         deadline: todo.deadline ? new Date(todo.deadline) : null,
       }));
+      console.log(convertedTodos);
       setTodos(convertedTodos);
     } else {
       // LocalStorage にデータがない場合は initTodos をセットする
@@ -38,7 +40,10 @@ const App = () => {
   // 状態 todos または initialized に変更があったときTodoデータを保存
   useEffect(() => {
     if (initialized) {
-      localStorage.setItem(localStorageKey, JSON.stringify(todos));
+      const filteredTodos = todos.filter((todo) => {
+        return !(todo.lie && dayjs(todo.deadline).isBefore(dayjs()));
+      });
+      localStorage.setItem(localStorageKey, JSON.stringify(filteredTodos));
     }
   }, [todos, initialized]);
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Todo } from "./types";
 import TodoItem from "./TodoItem"; // ◀◀ 追加
-
+import dayjs from "dayjs";
 type Props = {
   todos: Todo[];
   updateIsDone: (id: string, value: boolean) => void;
@@ -23,17 +23,20 @@ const TodoList = (props: Props) => {
 
   return (
     <div className="space-y-2">
-      {todos.map((todo) => (
-        <TodoItem
-          todos={todos}
-          key={todo.id}
-          todo={todo}
-          remove={props.remove}
-          updateIsDone={props.updateIsDone}
-          setTodos={props.setTodos}
-          setLiepopupState={props.setLiePopupState}
-        />
-      ))}
+      {todos.map(
+        (todo) =>
+          !(todo.lie && dayjs(todo.deadline).isBefore(dayjs())) && ( // ◀◀ 追加
+            <TodoItem
+              todos={todos}
+              key={todo.id}
+              todo={todo}
+              remove={props.remove}
+              updateIsDone={props.updateIsDone}
+              setTodos={props.setTodos}
+              setLiepopupState={props.setLiePopupState}
+            />
+          )
+      )}
     </div>
   );
 };
