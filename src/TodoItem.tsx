@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFile, faClock } from "@fortawesome/free-solid-svg-icons";
 import { twMerge } from "tailwind-merge";
+import { text } from "stream/consumers";
 
 type Props = {
   todos: Todo[];
@@ -38,7 +39,14 @@ const TodoItem = (props: Props) => {
       <div
         key={todo.id}
         className={twMerge(
-          "rounded-md border border-slate-500 bg-white px-3 py-2 drop-shadow-md",
+          "rounded-md border bg-white px-3 py-2 drop-shadow-md",
+          todo.deadline
+            ? dayjs(todo.deadline).isAfter(dayjs())
+              ? dayjs(todo.deadline).isAfter(dayjs().add(1, "day"))
+                ? "border-blue-500"
+                : "border-yellow-500"
+              : "border-red-500"
+            : "border-black",
           todo.isDone && "bg-blue-50 opacity-50"
         )}
       >
@@ -61,7 +69,14 @@ const TodoItem = (props: Props) => {
           <div className="ml-2">優先度 </div>
           {num2star(todo.lie, todo.priority)}
           {todo.deadline && (
-            <div className="ml-4 flex items-center text-sm text-slate-500">
+            <div
+              className={twMerge(
+                "ml-4 flex items-center text-sm",
+                dayjs(todo.deadline).isBefore(dayjs())
+                  ? " text-red-500"
+                  : " text-slate-500"
+              )}
+            >
               <FontAwesomeIcon
                 icon={faClock}
                 flip="horizontal"
