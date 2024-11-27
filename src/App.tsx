@@ -152,9 +152,7 @@ const App = () => {
       <button
         type="button"
         onClick={removeCompletedTodos}
-        className={
-          "my-5 rounded-md border border-red-700 bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
-        }
+        className="my-5 rounded-md border border-red-700 bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
       >
         完了済みのタスクを削除
       </button>

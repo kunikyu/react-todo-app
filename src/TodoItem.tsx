@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFile, faClock } from "@fortawesome/free-solid-svg-icons";
 import { twMerge } from "tailwind-merge";
-import { text } from "stream/consumers";
 
 type Props = {
   todos: Todo[];
