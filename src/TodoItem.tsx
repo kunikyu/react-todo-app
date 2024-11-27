@@ -16,9 +16,9 @@ type Props = {
 };
 const num2star = (lie: boolean, n: number): JSX.Element => {
   if (lie) {
-    return <div className="ml-2 text-amber-400">{"★".repeat(4 - n)}</div>;
+    return <div className="mx-2 text-amber-400">{"★".repeat(4 - n)}</div>;
   } else {
-    return <div className="ml-2 text-yellow-400">{"★".repeat(4 - n)}</div>;
+    return <div className="mx-2 text-yellow-400">{"★".repeat(4 - n)}</div>;
   }
 };
 
@@ -38,7 +38,7 @@ const TodoItem = (props: Props) => {
       <div
         key={todo.id}
         className={twMerge(
-          "rounded-md border bg-white px-3 py-2 drop-shadow-md",
+          "flex rounded-md border bg-white px-3 py-2 drop-shadow-md items-center",
           todo.deadline
             ? dayjs(todo.deadline).isAfter(dayjs())
               ? dayjs(todo.deadline).isAfter(dayjs().add(1, "day"))
@@ -49,28 +49,35 @@ const TodoItem = (props: Props) => {
           todo.isDone && "bg-blue-50 opacity-50"
         )}
       >
-        <div className="flex items-baseline text-slate-700">
+        <div>
           <input
             type="checkbox"
             checked={todo.isDone}
             onChange={(e) => props.updateIsDone(todo.id, e.target.checked)}
             className="mr-1.5 cursor-pointer"
           />
-          <FontAwesomeIcon icon={faFile} flip="horizontal" className="mr-1" />
-          <div
-            className={twMerge(
-              "text-lg font-bold",
-              todo.isDone && "line-through decoration-2"
-            )}
-          >
-            {todo.name}
-          </div>
-          <div className="ml-2">優先度 </div>
-          {num2star(todo.lie, todo.priority)}
-          {todo.deadline && (
+        </div>
+        <div className="flex w-full items-center text-slate-700">
+          <div className="sm:flex sm:w-full">
+            <div className="flex items-baseline">
+              <FontAwesomeIcon
+                icon={faFile}
+                flip="horizontal"
+                className="mr-1"
+              />
+              <div
+                className={twMerge(
+                  "text-lg font-bold ",
+                  todo.isDone && "line-through decoration-2"
+                )}
+              >
+                {todo.name}
+              </div>
+              {num2star(todo.lie, todo.priority)}
+            </div>
             <div
               className={twMerge(
-                "ml-4 flex items-center text-sm",
+                "ml-auto flex items-center text-sm",
                 dayjs(todo.deadline).isBefore(dayjs())
                   ? " text-red-500"
                   : " text-slate-500"
@@ -82,29 +89,33 @@ const TodoItem = (props: Props) => {
                 className="mr-1.5"
               />
               <div className={twMerge(todo.isDone && "line-through")}>
-                期限: {dayjs(todo.deadline).format("YYYY年M月D日 H時m分")}
+                {todo.deadline
+                  ? "期限: " +
+                    dayjs(todo.deadline).format("YYYY年M月D日 H時m分")
+                  : "期限: 未設定"}
               </div>
             </div>
-          )}
-          <button
-            onClick={() => {
-              setEditPopUpVisible(true);
-              if (todo.lie) props.setLiepopupState(3);
-            }}
-            className="ml-auto mr-2 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-blue-500"
-          >
-            編集
-          </button>
-          <button
-            onClick={() => props.remove(todo.id)}
-            className="rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-red-500"
-          >
-            削除
-          </button>
+          </div>
+          <div className="ml-auto flex w-auto sm:ml-0">
+            <button
+              onClick={() => {
+                setEditPopUpVisible(true);
+                if (todo.lie) props.setLiepopupState(3);
+              }}
+              className="mx-2 w-11 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-blue-500"
+            >
+              編集
+            </button>
+            <button
+              onClick={() => props.remove(todo.id)}
+              className="w-11 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-red-500"
+            >
+              削除
+            </button>
+          </div>
         </div>
-
-        <div className="ml-5 font-bold">{todo.memo}</div>
       </div>
+      <div className="ml-5 font-bold">{todo.memo}</div>
     </div>
   );
 };
