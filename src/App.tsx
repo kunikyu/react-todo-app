@@ -7,7 +7,7 @@ import TodoList from "./TodoList";
 import { v4 as uuid } from "uuid";
 import NewTodoForm from "./NewTodoForm";
 import dayjs from "dayjs";
-
+import Howto from "./Howto";
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodoName, setNewTodoName] = useState("");
@@ -114,7 +114,10 @@ const App = () => {
 
   return (
     <div className="mx-auto mt-10 max-w-2xl">
-      <h1 className="mb-4 text-2xl font-bold">TodoApp by kunikyu</h1>
+      <div className="flex">
+        <h1 className="mb-4 text-2xl font-bold">TodoApp by kunikyu</h1>
+        <Howto />
+      </div>
       <div>
         <LiePop
           isPopUpVisible={LiePopupState}
@@ -142,7 +145,7 @@ const App = () => {
       <button
         type="button"
         onClick={() => setNewTodoPopupState(true)}
-        className="my-5 mr-3 rounded-md bg-green-500 px-3 py-1 font-bold text-white hover:bg-green-600"
+        className="my-5 mr-3 rounded-md border border-green-700 bg-green-500 px-3 py-1 font-bold text-white hover:bg-green-600"
       >
         新しいタスクの追加
       </button>
@@ -150,7 +153,7 @@ const App = () => {
         type="button"
         onClick={removeCompletedTodos}
         className={
-          "my-5 rounded-md bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
+          "my-5 rounded-md border border-red-700 bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
         }
       >
         完了済みのタスクを削除
