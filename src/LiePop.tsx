@@ -3,12 +3,18 @@ import React from "react";
 type Props = {
   isPopUpVisible: number;
   setPopUpVisible: (isPopUpVisible: number) => void;
+  setEditingTodoId: (value: string) => void;
+  id: string;
 };
 
 const LiePop = (props: Props) => {
   const setPopUpVisible = props.setPopUpVisible;
   const isPopUpVisible = props.isPopUpVisible;
   const closePopUp = () => {
+    if (isPopUpVisible === 3) {
+      console.log("EditingTodoId: ", props.id);
+      props.setEditingTodoId(props.id);
+    }
     setPopUpVisible(0);
   };
 

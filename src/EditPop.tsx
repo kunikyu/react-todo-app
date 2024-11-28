@@ -1,30 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { Todo } from "./types";
 import { set } from "date-fns";
 
 type Props = {
   todos: Todo[];
-  setEditPopUpVisible: (isPopUpVisible: boolean) => void;
-  isEditPopUpVisible: boolean;
+  setEditingPopUpId: (isPopUpVisible: string) => void;
+  EditingPopUpId: string;
   setTodos: (todos: Todo[]) => void;
-  id: string;
 };
 
 const EditPop = (props: Props) => {
   const todos = props.todos;
-  const todo = todos.find((todo) => todo.id === props.id) as Todo;
+  const [updatedTodoName, setUpdatedTodoName] = useState("");
+  const [updatedTodoPriority, setUpdatedTodoPriority] = useState(3);
+  const [updatedTodoDeadline, setUpdatedTodoDeadline] = useState<Date | null>(
+    null
+  );
+  const [updatedTodoMemo, setUpdatedTodoMemo] = useState("");
 
-  const [updatedTodoName, setUpdatedTodoName] = useState(todo.name);
-  const [updatedTodoPriority, setUpdatedTodoPriority] = useState(todo.priority);
-  const [updatedTodoDeadline, setUpdatedTodoDeadline] = useState(todo.deadline);
-  const [updatedTodoMemo, setUpdatedTodoMemo] = useState(todo.memo);
-
-  const isPopUpVisible = props.isEditPopUpVisible;
-  const setIsPopUpVisible = props.setEditPopUpVisible;
+  const EditingId = props.EditingPopUpId;
+  useEffect(() => {
+    if (EditingId) {
+      const todo = todos.find((todo) => todo.id === EditingId);
+      if (todo) {
+        setUpdatedTodoName(todo.name);
+        setUpdatedTodoPriority(todo.priority);
+        setUpdatedTodoDeadline(todo.deadline);
+        setUpdatedTodoMemo(todo.memo);
+      }
+    }
+  }, [EditingId, todos]);
+  const setEditingId = props.setEditingPopUpId;
+  // const todo = todos.find((todo) => todo.id === EditingId) as Todo;
   const handleSave = () => {
     const updatedTodos = props.todos.map((todo) => {
-      if (todo.id === props.id) {
+      if (todo.id === EditingId) {
         const tempTodo = {
           ...todo,
           name: updatedTodoName,
@@ -38,18 +49,18 @@ const EditPop = (props: Props) => {
       }
     });
     props.setTodos(updatedTodos);
-    setIsPopUpVisible(false);
+    setEditingId("");
   };
   const handleCancel = () => {
-    setIsPopUpVisible(false);
-    setUpdatedTodoName(todo.name);
-    setUpdatedTodoPriority(todo.priority);
-    setUpdatedTodoDeadline(todo.deadline);
-    setUpdatedTodoMemo(todo.memo);
+    setEditingId("");
+    setUpdatedTodoName("");
+    setUpdatedTodoPriority(3);
+    setUpdatedTodoDeadline(null);
+    setUpdatedTodoMemo("");
   };
   return (
     <div>
-      {isPopUpVisible && (
+      {EditingId && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50">
           <div className="h-max w-full max-w-2xl rounded-md bg-gray-100 p-5 shadow-lg">
             <h2 className="text-lg font-bold">タスクの編集</h2>
@@ -87,7 +98,7 @@ const EditPop = (props: Props) => {
                 </label>
               ))}
             </div>
-            {!todo.lie && (
+            {EditingId && (
               <div className="flex items-center gap-x-2">
                 <label htmlFor="deadline" className="font-bold">
                   期限
@@ -123,7 +134,6 @@ const EditPop = (props: Props) => {
               <button
                 type="button"
                 onClick={() => {
-                  setIsPopUpVisible(false);
                   handleSave();
                 }}
                 className={

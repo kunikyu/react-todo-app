@@ -8,6 +8,7 @@ import { v4 as uuid } from "uuid";
 import NewTodoForm from "./NewTodoForm";
 import dayjs from "dayjs";
 import Howto from "./Howto";
+
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodoName, setNewTodoName] = useState("");
@@ -19,6 +20,7 @@ const App = () => {
   const localStorageKey = "TodoApp";
   const [LiePopupState, setLiePopupState] = useState(0);
   const [NewTodoPopupState, setNewTodoPopupState] = useState(false);
+  const [EditingTodoId, setEditingTodoId] = useState("");
   // App コンポーネントの初回実行時のみLocalStorageからTodoデータを復元
   // localStorage.clear();
   useEffect(() => {
@@ -126,6 +128,8 @@ const App = () => {
         <LiePop
           isPopUpVisible={LiePopupState}
           setPopUpVisible={setLiePopupState}
+          setEditingTodoId={setEditingTodoId}
+          id={EditingTodoId}
         />
       </div>
       <div className="mb-4">
@@ -172,6 +176,8 @@ const App = () => {
         remove={remove}
         setTodos={setTodos}
         setLiePopupState={setLiePopupState}
+        EditPopUpId={EditingTodoId}
+        setEditPopUpId={setEditingTodoId}
       />
     </div>
   );

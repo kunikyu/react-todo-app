@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { Todo } from "./types";
-import EditPop from "./EditPop";
 import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFile, faClock } from "@fortawesome/free-solid-svg-icons";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
-  todos: Todo[];
   todo: Todo;
   updateIsDone: (id: string, value: boolean) => void;
   remove: (id: string) => void;
   setTodos: (todos: Todo[]) => void;
   setLiepopupState: (value: number) => void;
+  EditPopUpId: string;
+  setEditPopUpId: (value: string) => void;
 };
 const num2star = (lie: boolean, n: number): JSX.Element => {
   return (
@@ -25,18 +25,9 @@ const num2star = (lie: boolean, n: number): JSX.Element => {
 };
 
 const TodoItem = (props: Props) => {
-  const [isEditPopUpVisible, setEditPopUpVisible] = useState(false);
   const todo = props.todo;
   return (
     <div>
-      <EditPop
-        todos={props.todos}
-        isEditPopUpVisible={isEditPopUpVisible}
-        setEditPopUpVisible={setEditPopUpVisible}
-        setTodos={props.setTodos}
-        id={todo.id}
-      />
-
       <div
         key={todo.id}
         className={twMerge(
@@ -118,8 +109,8 @@ const TodoItem = (props: Props) => {
             <div className="flex w-auto sm:ml-0">
               <button
                 onClick={() => {
-                  setEditPopUpVisible(true);
                   if (todo.lie) props.setLiepopupState(3);
+                  else props.setEditPopUpId(todo.id);
                 }}
                 className="z-10 ml-2 w-11 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-blue-500"
               >
