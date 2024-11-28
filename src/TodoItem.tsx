@@ -57,10 +57,13 @@ const TodoItem = (props: Props) => {
             className="mr-1.5 cursor-pointer items-center"
           />
         </div>
-        <div className="w-full divide-y divide-blue-400">
+        <div className="w-full divide-y divide-slate-200">
           <div className="mb-1 flex">
             <div className="flex w-full items-center text-slate-700">
-              <div className="sm:flex sm:w-full">
+              <div
+                className="w-full sm:flex sm:w-full"
+                onClick={() => props.updateIsDone(todo.id, !todo.isDone)}
+              >
                 <div className="flex items-baseline">
                   <FontAwesomeIcon
                     icon={faFile}
@@ -80,15 +83,24 @@ const TodoItem = (props: Props) => {
                 <div
                   className={twMerge(
                     "ml-auto flex items-center text-sm",
-                    dayjs(todo.deadline).isBefore(dayjs())
-                      ? " text-red-500"
-                      : " text-slate-500"
+                    !todo.deadline || dayjs(todo.deadline).isAfter(dayjs())
+                      ? " text-slate-500"
+                      : " text-red-500"
                   )}
                 >
                   <FontAwesomeIcon
                     icon={faClock}
                     flip="horizontal"
-                    className="mr-1.5"
+                    className={twMerge(
+                      "mr-1.5",
+                      todo.deadline
+                        ? dayjs(todo.deadline).isAfter(dayjs())
+                          ? dayjs(todo.deadline).isAfter(dayjs().add(1, "day"))
+                            ? "text-blue-500"
+                            : "text-yellow-500"
+                          : "text-red-500"
+                        : "text-slate-500"
+                    )}
                   />
                   <div className={twMerge(todo.isDone && "line-through")}>
                     {/* 期限: {todo.deadline && <br className="my-sm:hidden" />} */}
@@ -98,13 +110,13 @@ const TodoItem = (props: Props) => {
                   </div>
                 </div>
               </div>
-              <div className="ml-auto flex w-auto sm:ml-0">
+              <div className="flex w-auto sm:ml-0">
                 <button
                   onClick={() => {
                     setEditPopUpVisible(true);
                     if (todo.lie) props.setLiepopupState(3);
                   }}
-                  className="ml-2 w-11 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-blue-500"
+                  className="z-10 ml-2 w-11 rounded-md bg-slate-200 px-2 py-1 text-sm font-bold text-white hover:bg-blue-500"
                 >
                   編集
                 </button>
@@ -117,7 +129,7 @@ const TodoItem = (props: Props) => {
               </div>
             </div>
           </div>
-          <div className="">{todo.memo}</div>
+          {todo.memo && <div className="">{todo.memo}</div>}
         </div>
       </div>
     </div>
