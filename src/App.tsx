@@ -20,6 +20,7 @@ const App = () => {
   const [LiePopupState, setLiePopupState] = useState(0);
   const [NewTodoPopupState, setNewTodoPopupState] = useState(false);
   // App コンポーネントの初回実行時のみLocalStorageからTodoデータを復元
+  // localStorage.clear();
   useEffect(() => {
     const todoJsonStr = localStorage.getItem(localStorageKey);
     if (todoJsonStr && todoJsonStr !== "[]") {

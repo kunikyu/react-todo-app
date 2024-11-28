@@ -8,11 +8,8 @@ type Props = {
 const LiePop = (props: Props) => {
   const setPopUpVisible = props.setPopUpVisible;
   const isPopUpVisible = props.isPopUpVisible;
-  const togglePopUp = () => {
-    if (isPopUpVisible !== 0) {
-      setPopUpVisible(0);
-      console.log("閉じる");
-    }
+  const closePopUp = () => {
+    setPopUpVisible(0);
   };
 
   return (
@@ -30,7 +27,7 @@ const LiePop = (props: Props) => {
               <p>嘘に嘘を重ねるつもりなの？それに何の意味があるんだい</p>
             )}
             <button
-              onClick={togglePopUp}
+              onClick={closePopUp}
               className="mt-3 rounded-md bg-red-500 p-2 text-white"
             >
               閉じる

@@ -15,6 +15,10 @@ React、TypeScript、Tailwind CSS を使用し、ローカルストレージで�
 
 やることがたくさんあるように見せられます。
 
+## UI
+
+![](images/image.png)
+
 ## ライセンス
 
 MIT License
