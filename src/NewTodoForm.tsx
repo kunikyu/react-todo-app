@@ -38,53 +38,54 @@ const NewTodoForm: React.FC<NewTodoFormProps> = ({
       <div>
         {/* ポップアップの背景半透明 */}
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50">
-          <div className="size-max max-w-2xl rounded-md bg-gray-100 p-5 shadow-lg">
+          <div className="w-full rounded-md bg-gray-100 p-5 shadow-lg sm:size-max sm:max-w-2xl">
             <h2 className="text-lg font-bold">新しいタスクの追加</h2>
-            <div>
-              <div className="flex items-center space-x-2">
-                <label className="font-bold" htmlFor="newTodoName">
-                  名前
-                </label>
-                <input
-                  id="newTodoName"
-                  type="text"
-                  value={newTodoName}
-                  onChange={updateNewTodoName}
-                  className={"grow rounded-md border p-2"}
-                  placeholder="課題の名前を書け"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center gap-5">
-              <div className="font-bold">優先度</div>
-              {[1, 2, 3].map((value) => (
-                <label key={value} className="flex items-center space-x-1">
-                  <input
-                    id={`priority-${value}`}
-                    name="priorityGroup"
-                    type="radio"
-                    value={value}
-                    checked={newTodoPriority === value}
-                    onChange={updateNewTodoPriority}
-                  />
-                  <span>{value}</span>
-                </label>
-              ))}
-              <label htmlFor="deadline" className="font-bold">
-                期限
+            <div className="flex items-center space-x-2">
+              <label className="w-8 font-bold" htmlFor="newTodoName">
+                名前
               </label>
               <input
-                type="datetime-local"
-                id="deadline"
-                value={
-                  newTodoDeadline
-                    ? dayjs(newTodoDeadline).format("YYYY-MM-DDTHH:mm:ss")
-                    : ""
-                }
-                onChange={updateDeadline}
-                className="rounded-md border border-gray-400 px-2 py-0.5"
+                id="newTodoName"
+                type="text"
+                value={newTodoName}
+                onChange={updateNewTodoName}
+                className={"grow rounded-md border p-2"}
+                placeholder="課題の名前を書け"
               />
+            </div>
+            <div className="grid items-center gap-y-2 sm:flex sm:gap-5">
+              <div className="flex items-center space-x-1">
+                <div className="font-bold">優先度</div>
+                {[1, 2, 3].map((value) => (
+                  <label key={value} className="flex items-center space-x-1">
+                    <input
+                      id={`priority-${value}`}
+                      name="priorityGroup"
+                      type="radio"
+                      value={value}
+                      checked={newTodoPriority === value}
+                      onChange={updateNewTodoPriority}
+                    />
+                    <span>{value}</span>
+                  </label>
+                ))}
+              </div>
+              <div className="flex items-center space-x-2">
+                <label htmlFor="deadline" className="font-bold">
+                  期限
+                </label>
+                <input
+                  type="datetime-local"
+                  id="deadline"
+                  value={
+                    newTodoDeadline
+                      ? dayjs(newTodoDeadline).format("YYYY-MM-DDTHH:mm:ss")
+                      : ""
+                  }
+                  onChange={updateDeadline}
+                  className="rounded-md border border-gray-400 px-2 py-0.5"
+                />
+              </div>
               <div className="flex gap-5">
                 <label htmlFor="lie" className="font-bold">
                   嘘

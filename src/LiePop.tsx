@@ -18,7 +18,7 @@ const LiePop = (props: Props) => {
   return (
     <div>
       {isPopUpVisible !== 0 && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="size-full max-w-2xl rounded-md bg-gray-100 p-5 shadow-lg sm:h-2/3">
             {isPopUpVisible === 1 && (
               <p>嘘課題はおわらせることができないよねー。嘘なんだから</p>

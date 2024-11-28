@@ -11,12 +11,22 @@ type Props = {
 const WelcomeMessage = (props: Props) => {
   // いわゆる普通のロジックを記述する
   const currentTime = new Date();
+  const time =
+    currentTime.getHours() - 6 >= 0
+      ? currentTime.getHours() - 6
+      : currentTime.getHours() + 18;
   const greeting =
-    currentTime.getHours() > 12 ? "おはようございます" : "こんにちは";
+    time < 5
+      ? "ごきげんよう"
+      : time < 11
+        ? "こんにちは"
+        : time < 17
+          ? "こんばんは"
+          : "徹夜ですか？";
 
   //【重要!】JSX構文で描いた「JSX要素」を return で返す
   return (
-    <div className="text-blue-700">
+    <div className="font-serif font-bold text-black">
       {greeting}、{props.name}さん。
     </div>
   );
